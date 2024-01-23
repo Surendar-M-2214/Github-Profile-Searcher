@@ -6,6 +6,20 @@ const repos=document.getElementById("repos")
 const search=document.getElementById("search");
 const repoitem=[];
 
+// const formSubmit=()=>{
+//   const searchBox =document.querySelector("#search")
+//   if(searchBox.value!=""){
+//     getUser(searchBox.value);
+//     getRepo(searchBox.value);
+//     searchBox.value=""
+//   }
+//   const list = document.getElementById("col-id");
+  
+//   while (list.hasChildNodes()) {
+//     list.removeChild(list.firstChild);
+//   }
+// }
+
 
 const getUser= async(username)=>{
    const responses= await fetch(APIURL + username);
@@ -57,20 +71,15 @@ const getRepo= async(username)=>{
     const data = await responses.json();
     console.log(data.length)
 const calrepo= document.getElementById("col-id")
-console.log(data.html_url)
+data.forEach((item)=>
 
-var alldata = [];
-for(var i in data) {
-    alldata.push(data[i]);
-}
-console.log(alldata[2])
-for (var i=0;i<=alldata.length;i++) {
+ {
       const repocard=`
 <div class="col ">
    <div class="card shadow-sm">
 <div class="card-body min-vh-10" >
-    <h4><a id="repo-title" class="link-offset-2  link-underline-opacity- " style="text-decoration: none" target="blank" href="${alldata[i].html_url}">${alldata[i].name}</a></h1>
-        <p>${alldata[i].description}</p>
+    <h4><a id="repo-title" class="link-offset-2  link-underline-opacity- " style="text-decoration: none" target="blank" href=${item.html_url}>${item.name}</a></h1>
+        <p>${item.description}</p>
        <div class="d-flex justify-content-between align-items-center">
      <div class="btn-group">
            <button type="button" class="btn mx-2 btn-sm btn-outline-secondary">View</button>
@@ -84,23 +93,31 @@ for (var i=0;i<=alldata.length;i++) {
 `
       calrepo.insertAdjacentHTML("beforeend",repocard)
       
-    };
+    });
 
 }
+
+
 getUser("surendar-m-2214");
-getRepo("surendar-m-2214");
+getRepo("surendar-m-2214")
 
+form.addEventListener('submit', (e) => {
+  e.preventDefault()
 
-const formSubmit=()=>{
-const searchBox =document.querySelector("#search")
-if(searchBox.value!=""){
-  getUser(searchBox.value);
-  getRepo(searchBox.value);
-  searchBox.value=""
-}
-const list = document.getElementById("col-id");
+  const user = search.value
+  if(user){
+    getUser(user)
+    getRepo(user)
+    search.value = ''
+  }
+  else{
+    return false;
+  }
+  const list = document.getElementById("col-id");
 
 while (list.hasChildNodes()) {
-  list.removeChild(list.firstChild);
+  list.removeChild(list.firstChild);}
 }
-}
+
+
+)
